@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     AOS.init({
-        duration: 800,      // Thời gian hiệu ứng (milliseconds)
+        duration: 600,      // Thời gian hiệu ứng (milliseconds)
         offset: 120,        // Trigger hiệu ứng sớm hơn một chút (pixels)
         once: true,         // Chỉ chạy hiệu ứng một lần
         easing: 'ease-in-out', // Kiểu hiệu ứng chuyển động
