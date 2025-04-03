@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dự án Báo cáo: Khám phá Huế - Tìm hiểu lịch sử, văn hóa, điểm đến và ẩm thực đặc sắc của Cố đô.">
+    <meta name="keywords" content="Du lịch Huế, Cố đô Huế, Dự án báo cáo, Lê Hoàng Dũng, 12A2, Thừa Thiên Huế">
+    <title>Khám Phá Huế - Dự án Báo Cáo</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.png" type="image/png"> <!-- Thay bằng favicon của bạn -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Lightbox CSS (Cho Thư viện ảnh) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+
+    <!-- AOS CSS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+     <!-- Inline styles for specific single-page needs -->
+     <style>
+        html { scroll-behavior: smooth; }
+        /* Style cho các section chính */
+        .page-section {
+             padding: 80px 0; border-top: 1px solid #eee; min-height: 70vh; /* Giảm min-height chút */
+             overflow-x: hidden; /* Ngăn thanh cuộn ngang do AOS */
+        }
+        section:first-of-type, #hero + .page-section { border-top: none; }
+        .page-section h2.section-title { margin-bottom: 50px; }
+        .sub-section { margin-top: 60px; padding-top: 40px; border-top: 1px dashed #ddd; }
+        .page-section .sub-section:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+        .sub-section-title { text-align: center; margin-bottom: 30px; font-size: 1.8rem; color: var(--secondary-color); font-weight: 500; }
+
+        /* Map container style */
+         .map-container {
+            position: relative; padding-bottom: 50%; height: 0; overflow: hidden;
+            max-width: 100%; background: #eee; margin-top: 30px;
+            border-radius: var(--border-radius); box-shadow: var(--box-shadow);
+        }
+        .map-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* Accordion styles */
+        .accordion-item { margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: var(--border-radius); overflow: hidden;}
+        .accordion-header { width: 100%; background-color: var(--bg-light); border: none; padding: 15px 20px; text-align: left; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background-color var(--transition-speed); position: relative; color: var(--secondary-color); }
+        .accordion-header::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); transition: transform var(--transition-speed); }
+        .accordion-item.active .accordion-header::after { transform: translateY(-50%) rotate(180deg); }
+        .accordion-header:hover { background-color: #e9ecef; }
+        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background-color: var(--bg-color); }
+        .accordion-item.active .accordion-content { padding: 20px; max-height: 1000px; }
+
+         /* Style timeline */
+         .timeline { position: relative; max-width: 900px; margin: 30px auto; padding: 20px 0; }
+         .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--primary-color); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
+         .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; margin-bottom: 20px; }
+         .timeline-item::after { content: ''; position: absolute; width: 15px; height: 15px; right: -8.5px; background-color: white; border: 3px solid var(--primary-color); top: 15px; border-radius: 50%; z-index: 1; }
+         .timeline-item:nth-child(odd) { left: 0; }
+         .timeline-item:nth-child(odd)::after { right: -8.5px; left: auto;}
+         .timeline-item:nth-child(even) { left: 50%; }
+         .timeline-item:nth-child(even)::after { left: -6.5px; right: auto; }
+         .timeline-item h4 { margin-bottom: 5px; color: var(--secondary-color); }
+         .timeline-item p { font-size: 0.95rem; }
+         @media (max-width: 768px) { .timeline::after { left: 15px; } .timeline-item { width: 100%; padding-left: 50px; padding-right: 15px; left: 0 !important; } .timeline-item::after { left: 8.5px; } }
+
+         /* Heritage Grid */
+         .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; } /* Giảm minmax để vừa hơn */
+         .heritage-item { background: var(--bg-color); padding: 20px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+         .heritage-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+         .heritage-item img { max-width: 120px; height: auto; margin: 0 auto 15px; border-radius: 5px;}
+         .heritage-item h3 { font-size: 1.2rem; margin-bottom: 10px; } /* Chỉnh size */
+         .heritage-item p { font-size: 0.9rem; margin-bottom: 15px; } /* Chỉnh size */
+
+         /* Food Grid */
+         .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; } /* Giảm minmax */
+         .food-item { text-align: center; }
+         .food-item img { width: 100%; height: 150px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 10px; box-shadow: var(--box-shadow);}
+         .food-item h4 { margin-bottom: 5px; color: var(--secondary-color); font-size: 1.05rem;}
+         .food-item p { font-size: 0.85rem; color: #555; }
+
+          /* Gallery Grid */
+          .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; } /* Giảm minmax */
+          .gallery-item { position: relative; overflow: hidden; border-radius: var(--border-radius); cursor: pointer;}
+          .gallery-item img { transition: transform var(--transition-speed); width: 100%; height: 180px; object-fit: cover;} /* Giảm height */
+          .gallery-item:hover img { transform: scale(1.05); }
+          .gallery-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(74, 35, 90, 0.6); color: white; display: flex; justify-content: center; align-items: center; font-size: 2rem; opacity: 0; transition: opacity var(--transition-speed); }
+          .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+          /* Content Columns (Used in Kham Pha) */
+          .content-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-bottom: 40px;}
+          .content-columns .column-image img { border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+          @media (max-width: 768px) {
+              .content-columns, .content-columns.reverse { grid-template-columns: 1fr; }
+              .content-columns .column-image { margin-top: 20px; order: -1; }
+              .content-columns.reverse .column-image { order: -1; }
+          }
+
+          /* --- Creator Info Box --- */
+          .creator-info-container { position: fixed; bottom: 20px; left: 20px; z-index: 998; }
+          .creator-info-btn { background-color: var(--secondary-color); color: var(--light-text-color); border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background-color var(--transition-speed), transform var(--transition-speed); display: flex; justify-content: center; align-items: center; }
+          .creator-info-btn:hover { background-color: darken(var(--secondary-color), 10%); transform: scale(1.1); }
+          .creator-info-box { position: absolute; bottom: 65px; left: 0; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); border: 1px solid var(--border-color); border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.15); padding: 15px 20px; width: 320px; opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.95); transition: opacity 0.25s ease-out, visibility 0.25s ease-out, transform 0.25s ease-out; pointer-events: none; }
+          .creator-info-container:hover .creator-info-box { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
+          .creator-info-content { display: flex; align-items: center; margin-bottom: 12px; }
+          .creator-avatar img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 3px solid var(--primary-color); flex-shrink: 0; }
+          .creator-details p { margin-bottom: 5px; font-size: 1rem; line-height: 1.4; }
+          .creator-details p strong { color: var(--secondary-color); }
+          .creator-project { font-size: 0.95rem; color: #333; border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; margin-bottom: 0; text-align: center; }
+          .creator-project strong { color: var(--secondary-color); }
+
+     </style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header" data-aos="fade-down">
+        <div class="container header-container">
+            <a href="#hero" class="logo">
+                <!-- Thay bằng logo phù hợp với dự án hoặc logo Huế -->
+                <img src="https://upload.wikimedia.org/wikipedia/vi/2/2a/Logo_th%C3%A0nh_ph%E1%BB%91_Hu%E1%BA%BF.svg" alt="Logo Huế Project">
+            </a>
+            <nav class="main-nav">
+                <button class="nav-toggle" aria-label="Mở menu"> <i class="fas fa-bars"></i> </button>
+                <ul class="nav-menu">
+                    <li><a href="#hero" class="nav-link active">Trang chủ</a></li>
+                    <li><a href="#kham-pha" class="nav-link">Khám Phá</a></li>
+                    <li><a href="#di-san-van-hoa" class="nav-link">Di sản & Văn Hóa</a></li>
+                    <li><a href="#diem-den" class="nav-link">Điểm Đến</a></li>
+                    <li><a href="#trai-nghiem" class="nav-link">Trải Nghiệm</a></li>
+                    <li><a href="#lap-ke-hoach" class="nav-link">Lập Kế Hoạch</a></li>
+                    <li><a href="#tin-tuc" class="nav-link">Tin Tức & Sự Kiện</a></li>
+                    <li><a href="#thu-vien" class="nav-link">Thư Viện</a></li>
+                    <!-- Đã bỏ Liên Hệ -->
+                </ul>
+            </nav>
+            <!-- Có thể bỏ phần chuyển ngôn ngữ nếu không cần -->
+            <div class="language-switcher">
+                <a href="#" class="active">VN</a> | <a href="#">EN</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==== MAIN CONTENT AREA ==== -->
+    <main>
+
+        <!-- == Section: Hero == -->
+        <section id="hero" class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content" data-aos="zoom-in" data-aos-delay="200">
+                <h1>Huế - Nơi Thời Gian Ngưng Lại</h1>
+                <p>Khám phá vẻ đẹp trầm mặc, cổ kính và chiều sâu văn hóa của miền đất Cố đô.</p>
+                <a href="#diem-den" class="btn btn-primary btn-lg">Khám Phá Ngay</a>
+            </div>
+        </section>
+
+        <!-- == Section: Giới thiệu ngắn == -->
+        <section id="intro" class="section page-section intro-section">
+             <div class="container text-center" data-aos="fade-up">
+                <h2>Chào Mừng Đến Thừa Thiên Huế</h2>
+                <p class="lead">Vùng đất của di sản, của những giá trị văn hóa vật thể và phi vật thể được thế giới công nhận, nơi có dòng Hương thơ mộng, những lăng tẩm uy nghi và nhịp sống thanh bình, quyến rũ. Huế không chỉ là một điểm đến du lịch, mà còn là một hành trình trở về quá khứ, khám phá những trầm tích văn hóa và tìm lại sự tĩnh lặng trong tâm hồn.</p>
+            </div>
+        </section>
+
+        <!-- == Section: Điểm đến nổi bật == -->
+        <section id="diem-den-noi-bat" class="section page-section featured-destinations bg-light">
+             <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Điểm Đến Không Thể Bỏ Lỡ</h2>
+                <div class="card-grid">
+                     <div class="card" data-aos="fade-right" data-aos-delay="100">
+                        <img src="https://ik.imagekit.io/tvlk/blog/2023/02/dai-noi-hue-1.jpg?tr=q-70,c-at_max,w-500,h-300,dpr-2" alt="Đại Nội Huế" class="card-img">
+                        <div class="card-body"> <h3 class="card-title">Kinh Thành Huế</h3> <p>Trái tim của Cố đô, nơi lưu giữ dấu ấn vàng son của triều Nguyễn với Ngọ Môn, Điện Thái Hòa, Tử Cấm Thành.</p> <a href="#diem-den" class="btn btn-secondary">Xem thêm Điểm Đến</a> </div>
+                    </div>
+                    <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="https://statics.vinpearl.com/lang-tu-duc-1_1685092147.jpg" alt="Lăng Tự Đức" class="card-img">
+                        <div class="card-body"> <h3 class="card-title">Lăng Tự Đức (Khiêm Lăng)</h3> <p>Một bài thơ kiến trúc tuyệt tác giữa thiên nhiên thơ mộng, thể hiện tâm hồn lãng mạn của vị vua thi sĩ.</p> <a href="#diem-den" class="btn btn-secondary">Xem thêm Điểm Đến</a> </div>
+                    </div>
+                    <div class="card" data-aos="fade-left" data-aos-delay="300">
+                        <img src="https://a.travel-assets.com/findyours-php/viewfinder/images/res70/527000/527227-thien-mu-pagoda.jpg" alt="Chùa Thiên Mụ" class="card-img">
+                        <div class="card-body"> <h3 class="card-title">Chùa Thiên Mụ</h3> <p>Biểu tượng tâm linh và vẻ đẹp cổ kính bên dòng sông Hương, gắn liền với lịch sử hình thành xứ Huế.</p> <a href="#diem-den" class="btn btn-secondary">Xem thêm Điểm Đến</a> </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- == Section: Trải nghiệm đặc sắc == -->
+        <section id="trai-nghiem-doc-dao" class="section page-section unique-experiences">
+             <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Trải Nghiệm Độc Đáo</h2>
+                <div class="card-grid-horizontal">
+                    <div class="card-horizontal" data-aos="fade-right">
+                        <img src="https://nhn.1cdn.vn/2023/12/18/quan-an-vat-o-hue-11.jpg" alt="Ẩm thực Huế" class="card-h-img">
+                        <div class="card-h-body"> <h4>Tinh Hoa Ẩm Thực</h4> <p>Thưởng thức bún bò, cơm hến, các loại bánh Huế và khám phá sự tinh tế trong ẩm thực cung đình.</p> <a href="#trai-nghiem-am-thuc">Khám phá Ẩm thực <i class="fas fa-arrow-right"></i></a> </div>
+                    </div>
+                    <div class="card-horizontal" data-aos="fade-left" data-aos-delay="100">
+                        <img src="https://adminvov1.vov.gov.vn/UploadImages/vov1/2018/thang_7/ca-hue-tren-song-huong-net-rieng-cua-nghe-thuat-hue.jpg" alt="Ca Huế trên sông Hương" class="card-h-img">
+                        <div class="card-h-body"> <h4>Nghe Ca Huế Trên Sông Hương</h4> <p>Đắm mình trong những làn điệu trữ tình, sâu lắng giữa không gian đêm huyền ảo trên dòng sông Hương.</p> <a href="#trai-nghiem-ca-hue">Tìm hiểu Ca Huế <i class="fas fa-arrow-right"></i></a> </div>
+                    </div>
+                    <div class="card-horizontal" data-aos="fade-right" data-aos-delay="200">
+                        <img src="https://culaochamtourist.vn/wp-content/uploads/2022/11/xich-lo-hoi-an-dac-biet.jpg.jpg" alt="Xích lô dạo Kinh thành" class="card-h-img">
+                        <div class="card-h-body"> <h4>Dạo Chơi Phố Cổ Bằng Xích Lô</h4> <p>Chậm rãi ngắm nhìn những góc phố cổ kính và cảm nhận nhịp sống thanh bình của Huế.</p> <a href="#trai-nghiem-khac">Xem thêm Trải nghiệm <i class="fas fa-arrow-right"></i></a> </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- == Section: KHÁM PHÁ HUẾ == -->
+        <section id="kham-pha" class="section page-section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Khám Phá Huế</h2>
+
+                <!-- Section: Vị trí Địa lý & Điều kiện Tự nhiên -->
+                 <div id="kham-pha-dia-ly" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Vị Trí & Tự Nhiên</h3>
+                     <div class="content-columns">
+                         <div class="column-text" data-aos="fade-right">
+                             <h4>Vị trí địa lý</h4> <p>Thừa Thiên Huế nằm ở duyên hải miền Trung Việt Nam, trên trục giao thông Bắc - Nam quan trọng, là cầu nối giữa hai miền đất nước. Phía Bắc giáp tỉnh Quảng Trị, phía Nam giáp thành phố Đà Nẵng và tỉnh Quảng Nam, phía Tây giáp dãy Trường Sơn và nước Cộng hòa Dân chủ Nhân dân Lào, phía Đông giáp Biển Đông. Tọa độ địa lý: từ 15°59’30” đến 16°46’30” vĩ Bắc và từ 107°01’00” đến 108°11’00” kinh Đông.</p>
+                             <h4>Địa hình</h4> <p>Địa hình Thừa Thiên Huế đa dạng và phức tạp, nghiêng dần từ Tây sang Đông. Phía Tây là vùng núi cao thuộc dãy Trường Sơn hùng vĩ, tiếp đến là vùng gò đồi trung du chuyển tiếp, rồi đến dải đồng bằng ven biển nhỏ hẹp và cuối cùng là hệ đầm phá Tam Giang - Cầu Hai và bờ biển. Sự đa dạng này tạo nên những cảnh quan thiên nhiên phong phú, từ núi rừng, thác nước đến đồng ruộng, đầm phá và biển cả.</p>
+                         </div>
+                         <div class="column-image" data-aos="fade-left"> <img src="https://ik.imagekit.io/tvlk/blog/2023/08/pha-tam-giang-7.jpg" alt="Đầm phá Tam Giang"> </div>
+                     </div>
+                     <div class="content-columns reverse">
+                          <div class="column-text" data-aos="fade-left">
+                             <h4>Khí hậu</h4> <p>Huế mang đặc trưng khí hậu nhiệt đới gió mùa nhưng lại có tính chất chuyển tiếp từ á nhiệt đới đến nhiệt đới, chịu ảnh hưởng rõ rệt của gió mùa Đông Bắc. Mùa mưa kéo dài từ tháng 9 đến tháng 12, với lượng mưa rất lớn, thường gây lụt lội. Mùa khô từ tháng 3 đến tháng 8, thời tiết nóng ẩm, đôi khi có gió Tây Nam khô nóng. Nhiệt độ trung bình năm khoảng 25°C. Du khách nên lưu ý thời tiết để chuẩn bị trang phục và lên kế hoạch phù hợp.</p>
+                             <h4>Tài nguyên</h4> <p>Thừa Thiên Huế có nguồn tài nguyên phong phú. Sông Hương là linh hồn của thành phố. Hệ đầm phá Tam Giang - Cầu Hai là hệ đầm phá nước lợ lớn nhất Đông Nam Á, có giá trị sinh thái và kinh tế cao. Vườn Quốc gia Bạch Mã bảo tồn đa dạng sinh học với nhiều loài động thực vật quý hiếm. Bờ biển có các bãi tắm đẹp như Lăng Cô (một trong những vịnh đẹp nhất thế giới), Thuận An, Cảnh Dương. Ngoài ra còn có tài nguyên khoáng sản như đá vôi, cao lanh, nước khoáng nóng.</p>
+                          </div>
+                           <div class="column-image" data-aos="fade-right"> <img src="https://vcdn1-dulich.vnecdn.net/2024/11/27/BM1-2578-1732680296.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=KNBrUfq2HJ24zhg5eeWFcQ" alt="Vườn Quốc gia Bạch Mã"> </div>
+                     </div>
+                 </div>
+
+                 <!-- Section: Lịch sử Hình thành và Phát triển -->
+                 <div id="kham-pha-lich-su" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Dòng Chảy Lịch Sử</h3>
+                     <div class="timeline">
+                          <div class="timeline-item" data-aos="fade-right"> <h4>Thời Tiền sử - Sơ sử & Chămpa</h4> <p>Các di chỉ khảo cổ học cho thấy con người đã sinh sống ở vùng đất này từ rất sớm (văn hóa Sa Huỳnh). Sau đó, khu vực này thuộc lãnh thổ Vương quốc Chămpa cổ đại, với tên gọi là hai châu Ô và Lý (Rí). Dấu tích văn hóa Chăm vẫn còn hiện diện qua một số đền tháp và hiện vật điêu khắc.</p> </div>
+                          <div class="timeline-item" data-aos="fade-left"> <h4>Thời Đại Việt & Sự sáp nhập (1306)</h4> <p>Năm 1306, vua Chế Mân của Chămpa đã dâng hai châu Ô, Lý làm sính lễ cưới Công chúa Huyền Trân nhà Trần. Vua Trần Anh Tông đổi tên hai châu này thành châu Thuận và châu Hóa. Từ đó, vùng đất này chính thức thuộc về Đại Việt và bắt đầu quá trình Việt hóa, trở thành phên dậu quan trọng ở phương Nam.</p> </div>
+                          <div class="timeline-item" data-aos="fade-right"> <h4>Thời các Chúa Nguyễn (1558 - 1776)</h4> <p>Năm 1558, Nguyễn Hoàng được vua Lê cho vào trấn thủ đất Thuận Hóa. Ông và các hậu duệ (9 đời Chúa Nguyễn) đã từng bước xây dựng vùng đất này thành một lãnh địa riêng ở Đàng Trong, đối đầu với Chúa Trịnh ở Đàng Ngoài. Phú Xuân (Huế) dần trở thành trung tâm chính trị, quân sự và kinh tế của Đàng Trong, đặt nền móng cho việc trở thành kinh đô sau này.</p> </div>
+                           <div class="timeline-item" data-aos="fade-left"> <h4>Thời Tây Sơn (1776 - 1802)</h4> <p>Nghĩa quân Tây Sơn do anh em Nguyễn Nhạc, Nguyễn Huệ, Nguyễn Lữ lãnh đạo đã lật đổ Chúa Nguyễn, chiếm Phú Xuân. Năm 1788, Nguyễn Huệ lên ngôi Hoàng đế tại núi Bân (Huế), lấy niên hiệu Quang Trung, chọn Phú Xuân làm kinh đô của vương triều Tây Sơn. Triều đại này tuy ngắn ngủi nhưng đã để lại nhiều dấu ấn cải cách.</p> </div>
+                          <div class="timeline-item" data-aos="fade-right"> <h4>Thời Nhà Nguyễn - Kinh đô Việt Nam (1802 - 1945)</h4> <p>Sau khi đánh bại Tây Sơn, Nguyễn Ánh lên ngôi Hoàng đế (Gia Long) năm 1802, lập ra nhà Nguyễn, thống nhất đất nước và chính thức chọn Huế làm Kinh đô. Triều Nguyễn đã xây dựng tại Huế một Kinh thành đồ sộ, cùng hệ thống cung điện, lăng tẩm nguy nga. Huế trở thành trung tâm chính trị, văn hóa, giáo dục của cả nước cho đến năm 1945. Đây là giai đoạn vàng son nhưng cũng đầy biến động với sự xâm lược của Pháp. Ngày 30/8/1945, Vua Bảo Đại đọc chiếu thoái vị tại Ngọ Môn, chấm dứt chế độ quân chủ ở Việt Nam.</p> </div>
+                          <div class="timeline-item" data-aos="fade-left"> <h4>Thời kỳ Kháng chiến & Sau 1975</h4> <p>Huế là một địa bàn chiến lược quan trọng trong hai cuộc kháng chiến chống Pháp và chống Mỹ. Đặc biệt, sự kiện Tết Mậu Thân 1968 đã để lại những tổn thất nặng nề cho thành phố cả về người và di sản. Sau ngày đất nước thống nhất (1975), Huế cùng cả nước bước vào công cuộc tái thiết, khắc phục hậu quả chiến tranh, bảo tồn và phục hồi các giá trị di sản văn hóa quý báu.</p> </div>
+                           <div class="timeline-item" data-aos="fade-right"> <h4>Huế Ngày Nay</h4> <p>Thừa Thiên Huế ngày nay đang nỗ lực bảo tồn và phát huy các giá trị di sản Cố đô được UNESCO công nhận, đồng thời phát triển kinh tế - xã hội theo hướng bền vững. Tỉnh đã và đang xây dựng Huế trở thành thành phố Festival đặc trưng của Việt Nam, một trung tâm văn hóa, du lịch, y tế chuyên sâu, giáo dục và khoa học công nghệ lớn của cả nước và khu vực. Định hướng trở thành thành phố trực thuộc Trung ương trên nền tảng bảo tồn di sản tiếp tục được đẩy mạnh.</p> </div>
+                     </div>
+                      <div class="text-center history-images" style="margin-top: 20px;" data-aos="zoom-in">
+                        <img src="https://mytourcdn.com/upload_images/Image/Minh%20Hoang/2014/12/15/16/Ngo-mon-1.jpg" alt="Ảnh tư liệu Huế xưa" style="width: 30%; margin: 10px; border-radius: 5px; display:inline-block;">
+                        <img src="https://danviet.mediacdn.vn/2020/11/12/1baodaithoaivi-1605169383138-1605169384382599459458.jpg" alt="Bảo Đại Thoái vị" style="width: 30%; margin: 10px; border-radius: 5px; display:inline-block;">
+                        <img src="https://cafefcdn.com/203337114487263232/2022/3/21/photo-8-16478729547561385731528.jpg" alt="Huế hiện đại" style="width: 30%; margin: 10px; border-radius: 5px; display:inline-block;">
+                     </div>
+                 </div>
+
+                  <!-- Section: Con người Huế -->
+                 <div id="kham-pha-con-nguoi" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Nét Đẹp Con Người Huế</h3>
+                     <div class="content-columns">
+                         <div class="column-text" data-aos="fade-right">
+                             <h4>Thanh lịch & Trầm tư</h4> <p>Người Huế nổi tiếng với sự nhẹ nhàng, thanh lịch trong giao tiếp, ứng xử và cả trong dáng vẻ. Ảnh hưởng từ lối sống cung đình xưa và Phật giáo đã tạo nên một phong thái có phần trầm lắng, sâu sắc, kín đáo và từ tốn. Họ không thích sự ồn ào, phô trương mà ưa chuộng sự tinh tế, ý nhị.</p>
+                             <h4>Hiếu khách & Trọng tình</h4> <p>Dù vẻ ngoài có vẻ trầm lặng, người Huế rất nồng hậu, chân thành và mến khách. Họ coi trọng tình nghĩa, lễ nghi trong các mối quan hệ gia đình và xã hội. Sự hiếu khách của người Huế thể hiện qua cách họ đón tiếp, đãi đằng khách đến nhà một cách chu đáo và ấm áp.</p>
+                             <h4>Giọng nói đặc trưng</h4> <p>Giọng Huế với âm sắc riêng, ngữ điệu nhẹ nhàng, chậm rãi, nhiều thanh sắc trầm bổng, được xem là một nét duyên độc đáo và dễ nhận biết. Nghe người Huế nói chuyện cũng là một trải nghiệm thú vị, cảm nhận được sự dịu dàng, mềm mại trong ngôn ngữ.</p>
+                         </div>
+                          <div class="column-image" data-aos="fade-left"> <img src="https://cdn.giaoducthoidai.vn/images/87a7b2442062a13f399c8570bdaf25656d0ccf0a1b439d08e28c9b62f0bfdf3879bdc5eeab0066cb4aab7757f27696e98c85964276abe64fc5fe6a1507318b7c/nu-sinh-hue-18-4336.jpg" alt="Con gái Huế trong tà áo dài"> </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- == Section: DI SẢN & VĂN HÓA == -->
+        <section id="di-san-van-hoa" class="section page-section bg-light">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Di Sản & Văn Hóa</h2>
+
+                 <div id="di-san-unesco" class="sub-section">
+                    <h3 class="sub-section-title" data-aos="zoom-in">Di Sản Thế Giới UNESCO</h3>
+                    <div class="heritage-grid">
+                         <div class="heritage-item" data-aos="fade-up" data-aos-delay="100"> <img src="https://lh3.googleusercontent.com/proxy/xmG_tXVY_lYUvmlDuU1hYOnSeYkQUM72w6Es489XDDRFphXkcss5zENfVvqJJcaZuFIS1NbNzTwg0K3UYk0iDWKXNzIWxc93RkbG7_zA8Qyn4tcDln9ok7CdmO_wU-5R51aekvwKNJnFQxovhO5zY7FXtM23FmK0z3TvYzhnim_IZhzxsujU3W8qNUi1-U7Forla5JILglGBgMhDv35dWF4bsGHsh_9dsE9_XZa3hsSw-76qz7hfRhd56EVZBw" alt="Quần thể di tích Cố đô Huế"> <h3>Quần thể Di tích Cố đô Huế (1993)</h3> <p>Di sản Văn hóa Thế giới đầu tiên của Việt Nam. Bao gồm Kinh thành, Hoàng thành, Tử Cấm thành và hệ thống Lăng tẩm vua Nguyễn. Là ví dụ nổi bật về quy hoạch đô thị phong kiến và kiến trúc cung đình.</p> <a href="#diem-den" class="btn btn-outline btn-sm">Xem Điểm Đến</a> </div>
+                         <div class="heritage-item" data-aos="fade-up" data-aos-delay="200"> <img src="https://www.homepaylater.vn/static/20446545ebd2b3aae00f9ef7e62c6575/25300/1_tim_hieu_ve_nha_nhac_cung_dinh_hue_1_97a0c1a11a.jpg" alt="Nhã nhạc Cung đình Huế"> <h3>Nhã Nhạc Cung đình Huế (2003)</h3> <p>Kiệt tác Di sản Phi vật thể của Nhân loại. Âm nhạc cung đình trang trọng, tao nhã, gắn liền với các nghi lễ, thể hiện quyền uy vương triều và triết lý phương Đông.</p> <a href="#trai-nghiem-ca-hue" class="btn btn-outline btn-sm">Tìm hiểu Nhã Nhạc & Ca Huế</a> </div>
+                         <div class="heritage-item" data-aos="fade-up" data-aos-delay="300"> <img src="https://khamphahue.com.vn/Portals/0/Medias/Nam2022/T7/Khamphahue_MocbanTrieuNguyen_GiaTriTruongTon_01.jpg" alt="Mộc bản triều Nguyễn"> <h3>Mộc bản Triều Nguyễn (2009)</h3> <p>Di sản Tư liệu Thế giới. Kho tàng ván khắc gỗ dùng để in sách dưới triều Nguyễn, lưu giữ nhiều thông tin quý giá về lịch sử, văn hóa, luật pháp...</p> </div>
+                         <div class="heritage-item" data-aos="fade-up" data-aos-delay="100"> <img src="https://khamphahue.com.vn/Portals/0/Medias/Nam2022/T9/chau-ban-trieu-nguyen.jpg" alt="Châu bản triều Nguyễn"> <h3>Châu bản Triều Nguyễn (2014)</h3> <p>Di sản Tư liệu Thế giới. Hệ thống văn bản hành chính độc đáo của triều Nguyễn với bút tích phê duyệt của các Hoàng đế. Nguồn sử liệu gốc quý giá.</p> </div>
+                         <div class="heritage-item" data-aos="fade-up" data-aos-delay="200"> <img src="https://adminvov1.vov.gov.vn/UploadImages/vov1/2016/thang_5/fjdjf.jpg" alt="Thơ văn trên kiến trúc cung đình Huế"> <h3>Thơ văn trên Kiến trúc Cung đình Huế (2016)</h3> <p>Di sản Tư liệu Thế giới. Hệ thống thơ văn chữ Hán độc đáo được chạm khắc, cẩn khảm tinh xảo trên các công trình kiến trúc trong Cung đình.</p> </div>
+                    </div>
+                </div>
+
+                 <div id="di-san-vat-the-khac" class="sub-section">
+                    <h3 class="sub-section-title" data-aos="zoom-in">Nét Kiến Trúc & Di Tích Khác</h3>
+                     <div class="card-grid">
+                        <div class="card" data-aos="fade-right"> <img src="https://ik.imagekit.io/tvlk/blog/2023/08/nha-vuon-an-hien-5.jpg?tr=q-70,c-at_max,w-500,h-300,dpr-2" alt="Nhà vườn An Hiên" class="card-img"> <div class="card-body"> <h3 class="card-title">Kiến trúc Nhà vườn Huế</h3> <p>Loại hình kiến trúc nhà ở độc đáo, hài hòa giữa nhà rường và vườn cây, thể hiện triết lý sống gần gũi thiên nhiên. Tiêu biểu: An Hiên, Ngọc Sơn Công Chúa Từ...</p> </div> </div>
+                         <div class="card" data-aos="zoom-in-up"> <img src="https://vcdn1-vnexpress.vnecdn.net/2015/10/21/A1-1445445674.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=R0rm_axXWmPzTbxAtrnlOQ" alt="Trường Quốc Học Huế" class="card-img"> <div class="card-body"> <h3 class="card-title">Dấu ấn Kiến trúc Pháp</h3> <p>Các công trình mang phong cách châu Âu cổ điển, tạo sự giao thoa thú vị. Nổi bật: cầu Trường Tiền, Ga Huế, trường Quốc Học, Hai Bà Trưng...</p> </div> </div>
+                         <div class="card" data-aos="fade-left"> <img src="https://statics.vinpearl.com/chua-tu-dam-hue-3_1627978366_1680084516.jpg" alt="Chùa Từ Đàm" class="card-img"> <div class="card-body"> <h3 class="card-title">Hệ thống Chùa chiền cổ kính</h3> <p>Huế là trung tâm Phật giáo lớn với nhiều chùa cổ, linh thiêng như Từ Đàm, Báo Quốc, Diệu Đế, Từ Hiếu, Huyền Không Sơn Thượng...</p> </div> </div>
+                     </div>
+                </div>
+
+                 <div id="di-san-phi-vat-the" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Bản Sắc Văn Hóa Phi Vật Thể</h3>
+                    <div class="card-grid-horizontal">
+                         <div class="card-horizontal" data-aos="fade-right" data-aos-delay="100"> <img src="https://bizweb.dktcdn.net/100/101/075/articles/hue-3e48ae39-6292-4cdd-a5e8-ccf34b9e05e2.jpg?v=1558343103230" alt="Ca Huế trên sông Hương" class="card-h-img"> <div class="card-h-body"> <h4>Ca Huế</h4> <p>Thể loại âm nhạc thính phòng tao nhã, kết hợp dân gian và cung đình, thường biểu diễn trên thuyền rồng sông Hương.</p> <a href="#trai-nghiem-ca-hue">Thưởng thức Ca Huế <i class="fas fa-arrow-right"></i></a> </div> </div>
+                        <div class="card-horizontal" data-aos="fade-left" data-aos-delay="200"> <img src="https://khamphahue.com.vn/Portals/0/VanHoa/LeHoiTruyenThong/HoiVatLangSinh/Khamphahue-LeHoiVatLangSinh9.jpg?ver=2023-01-18-203309-010" alt="Lễ hội vật làng Sình" class="card-h-img"> <div class="card-h-body"> <h4>Lễ hội Truyền thống</h4> <p>Nhiều lễ hội đặc sắc như Festival Huế, tế Nam Giao, Điện Hòn Chén, Vật làng Sình, Đua ghe...</p> <a href="#tin-tuc">Xem Lễ hội & Sự kiện <i class="fas fa-arrow-right"></i></a> </div> </div>
+                        <div class="card-horizontal" data-aos="fade-right" data-aos-delay="300"> <img src="https://cdn3.ivivu.com/2022/10/lang-nghe-non-la-my-lam-ivivu-5.jpg" alt="Nón lá Huế" class="card-h-img"> <div class="card-h-body"> <h4>Trang phục & Làng nghề</h4> <p>Áo dài tím, nón bài thơ là biểu tượng. Các làng nghề nón lá, hương trầm, hoa giấy, gốm Phước Tích...</p> <a href="#diem-den-lang-nghe">Thăm các Làng nghề <i class="fas fa-arrow-right"></i></a> </div> </div>
+                         <div class="card-horizontal" data-aos="fade-left" data-aos-delay="400"> <img src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/473760mrP/phong-tuc-tap-quan-doc-dao-nhat-tai-hue-888984.jpg" alt="Phong tục Huế" class="card-h-img"> <div class="card-h-body"> <h4>Phong tục Tập quán</h4> <p>Người Huế coi trọng nghi lễ, phong tục trong đời sống như cưới hỏi, tang ma, lễ tết, thờ cúng tổ tiên. Nếp sống gia đình truyền thống được gìn giữ.</p> </div> </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- == Section: ĐIỂM ĐẾN == -->
+        <section id="diem-den" class="section page-section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Điểm Đến Hấp Dẫn</h2>
+                 <div class="filter-section text-center" style="margin-bottom: 40px;" data-aos="fade-up" data-aos-delay="100">
+                    <!-- 
+                    <button class="btn btn-filter active" data-filter="all">Tất Cả</button>
+                    <button class="btn btn-filter" data-filter="di-tich">Di Tích Lịch Sử</button>
+                    <button class="btn btn-filter" data-filter="thien-nhien">Thiên Nhiên & Cảnh Quan</button>
+                    <button class="btn btn-filter" data-filter="lang-nghe">Làng Nghề & Cộng Đồng</button>
+                    -->
+                </div>
+
+                <div class="card-grid destination-grid">
+                    <!-- Items sẽ có data-aos riêng -->
+                    <div class="card destination-item" data-category="di-tich" data-aos="zoom-in-up"> <img src="https://media-cdn-v2.laodong.vn/storage/newsportal/2023/6/27/1209604/352521770_6922050131.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Kinh Thành Huế</h3> <p>Quần thể kiến trúc đồ sộ, trung tâm quyền lực triều Nguyễn. (Giá vé, giờ mở cửa cập nhật)</p> </div> </div>
+                    <div class="card destination-item" data-category="di-tich" data-aos="zoom-in-up"> <img src="https://dulichdaibang.com/theme/root/La%CC%86ng%20Tu%CC%9B%CC%A3%20%C4%90u%CC%9B%CC%81c%209.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Lăng Tự Đức (Khiêm Lăng)</h3> <p>Công trình lãng mạn, thơ mộng, hòa quyện thiên nhiên. Xây dựng khi vua còn tại vị.</p> </div> </div>
+                    <div class="card destination-item" data-category="di-tich" data-aos="zoom-in-up"> <img src="https://dulichdaibang.com/theme/root/chua-thien-mu-1.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Chùa Thiên Mụ</h3> <p>Ngôi chùa cổ linh thiêng với tháp Phước Duyên 7 tầng biểu tượng.</p> </div> </div>
+                    <div class="card destination-item" data-category="thien-nhien" data-aos="zoom-in-up"> <img src="https://vcdn1-dulich.vnecdn.net/2023/07/18/Langco3-1446-1689668265.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=JR5dRBnSvwuSPAe6o4nUMA" class="card-img"> <div class="card-body"> <h3 class="card-title">Vịnh Lăng Cô</h3> <p>Một trong những vịnh biển đẹp nhất thế giới, cát trắng, nước xanh.</p> </div> </div>
+                    <div class="card destination-item" data-category="thien-nhien" data-aos="zoom-in-up"> <img src="https://tapchidulich.net.vn/FileManager/Anh%20web%202023/Thang%201/0110/Khai%20thac%20du%20lich%20vung%20pha%20Tam%20Giang%20Cau%20Hai%20(3).jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Đầm phá Tam Giang - Cầu Hai</h3> <p>Hệ đầm phá nước lợ lớn nhất ĐNÁ, vẻ đẹp hoang sơ, bình yên.</p> </div> </div>
+                    <div class="card destination-item" data-category="thien-nhien" data-aos="zoom-in-up"> <img src="https://dichoithoi.com/diem-den/vuon-quoc-gia-bach-ma.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Vườn Quốc gia Bạch Mã</h3> <p>Khí hậu mát mẻ, hệ sinh thái đa dạng, cảnh quan hùng vĩ.</p> </div> </div>
+                    <div class="card destination-item" data-category="lang-nghe" data-aos="zoom-in-up"> <img src="https://static.vinwonders.com/production/lang-huong-thuy-xuan-1.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Làng hương Thủy Xuân</h3> <p>Làng nghề làm hương với "bó hoa hương" đủ màu sắc rực rỡ.</p> </div> </div>
+                    <div class="card destination-item" data-category="lang-nghe" data-aos="zoom-in-up"> <img src="https://cly.1cdn.vn/2021/10/15/dantoctongiao.congly.vn-upload-content_img-2021-1015-_non-la-bai-tho-xu-hue-luu-giu-van-hoa-truyen-thong-qua-bao-nam-thang-anh-in_anh_5.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Làng nón Tây Hồ</h3> <p>Nơi làm ra những chiếc nón bài thơ mỏng manh, thanh thoát.</p> </div> </div>
+                    <div class="card destination-item" data-category="lang-nghe" data-aos="zoom-in-up"> <img src="https://static.vinwonders.com/production/lang-sinh-hue-6.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Làng Sình (Làng Lợi Nông)</h3> <p>Nổi tiếng với tranh dân gian độc đáo và hội vật truyền thống.</p> </div> </div>
+                    <div class="card destination-item" data-category="di-tich" data-aos="zoom-in-up"> <img src="https://phuot3mien.com/wp-content/uploads/2024/04/lang-minh-mang-hieu-lang-su-ket-hop-hai-hoa-giua-kien-truc-xua-va-thien-nhien-8wYk.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Lăng Minh Mạng (Hiếu Lăng)</h3> <p>Công trình kiến trúc uy nghi, chuẩn mực, thể hiện sự trang nghiêm.</p> </div> </div>
+                    <div class="card destination-item" data-category="di-tich" data-aos="zoom-in-up"> <img src="https://hueworldheritage.org.vn/Portals/0/Medias/Nam2022/T4/lang-khai-dinh-05-1_15_4_2022_13_55_45_657_CH.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Lăng Khải Định (Ứng Lăng)</h3> <p>Kiến trúc độc đáo, kết hợp tinh xảo văn hóa Đông - Tây.</p> </div> </div>
+                    <div class="card destination-item" data-category="di-tich" data-aos="zoom-in-up"> <img src="https://statics.vinpearl.com/cho-dong-ba-hue-01_1624678378.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Chợ Đông Ba</h3> <p>Khu chợ lớn và sầm uất nhất Huế, nơi tìm thấy đủ loại hàng hóa.</p> </div> </div>
+                    <div class="card destination-item" data-category="thien-nhien" data-aos="zoom-in-up"> <img src="https://ik.imagekit.io/tvlk/blog/2023/07/doi-vong-canh-5.jpg" class="card-img"> <div class="card-body"> <h3 class="card-title">Đồi Vọng Cảnh</h3> <p>Địa điểm lý tưởng ngắm sông Hương và thành phố Huế.</p> </div> </div>
+                    <div class="card destination-item" data-category="lang-nghe" data-aos="zoom-in-up"> <img src="https://vcdn1-dulich.vnecdn.net/2022/03/14/gom-phuoc-tich-1647249136-7149-1647251496.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=TxYYwbFlWNJ7H-wNC2DpKw" class="card-img"> <div class="card-body"> <h3 class="card-title">Làng cổ Phước Tích</h3> <p>Làng cổ hơn 500 năm tuổi, nổi tiếng nghề gốm và nhà rường cổ.</p> </div> </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- == Section: TRẢI NGHIỆM == -->
+        <section id="trai-nghiem" class="section page-section bg-light">
+            <div class="container">
+                 <h2 class="section-title" data-aos="fade-up">Trải Nghiệm Độc Đáo</h2>
+
+                 <div id="trai-nghiem-am-thuc" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Tinh Hoa Ẩm Thực Huế</h3>
+                     <p class="lead text-center" data-aos="fade-up">Ẩm thực Huế nổi tiếng với sự tinh tế, cầu kỳ trong chế biến và trình bày, chia thành hai dòng chính: ẩm thực cung đình sang trọng và ẩm thực dân gian phong phú, độc đáo. Đến Huế là phải thưởng thức những món ăn làm nên tên tuổi của vùng đất này.</p>
+                    <div class="food-grid">
+                         <div class="food-item" data-aos="fade-up"> <img src="https://i.ytimg.com/vi/CSI9ildGX9s/maxresdefault.jpg" alt="Bún Bò Huế"> <h4>Bún Bò Huế</h4> <p>Nước dùng đậm đà vị xương, thơm mùi sả, mắm ruốc, ăn kèm bún to, thịt bò, giò heo, chả...</p> </div>
+                         <div class="food-item" data-aos="fade-up" data-aos-delay="50"> <img src="https://static.vinwonders.com/production/com-hen-hoi-an-01.jpg" alt="Cơm Hến"> <h4>Cơm Hến / Bún Hến</h4> <p>Đặc sản dân dã hấp dẫn: cơm/bún trộn hến xào, tóp mỡ, mắm ruốc, lạc rang, rau sống...</p> </div>
+                         <div class="food-item" data-aos="fade-up" data-aos-delay="100"> <img src="https://static.vinwonders.com/production/com-hen-hoi-an-01.jpg" alt="Các loại bánh Huế"> <h4>Các Loại Bánh Huế</h4> <p>Thiên đường bánh: bèo, nậm, lọc, khoái, ép... mỗi loại một vẻ, chấm nước mắm chua ngọt.</p> </div>
+                         <div class="food-item" data-aos="fade-up" data-aos-delay="150"> <img src="https://i-giadinh.vnecdn.net/2022/02/18/Buoc-6-5410-1645174529.jpg" alt="Nem lụi"> <h4>Nem Lụi</h4> <p>Thịt heo nướng trên cây sả thơm lừng, cuốn bánh tráng, rau sống, chấm nước lèo đặc biệt.</p> </div>
+                         <div class="food-item" data-aos="fade-up" data-aos-delay="200"> <img src="https://static.vinwonders.com/production/che-hem-hue-3.jpg" alt="Chè Hẻm Huế"> <h4>Chè Huế</h4> <p>Hàng chục loại chè ngọt ngào: chè sen, long nhãn, bột lọc heo quay, khoai tía...</p> </div>
+                         <div class="food-item" data-aos="fade-up" data-aos-delay="250"> <img src="https://mia.vn/media/uploads/blog-du-lich/tat-tan-tat-cac-thong-tin-can-biet-ve-mon-va-tron-hue-1-1638102304.jpg" alt="Vả trộn"> <h4>Vả Trộn</h4> <p>Món gỏi độc đáo từ trái vả luộc, trộn tôm thịt, da heo, rau răm, đậu phụng...</p> </div>
+                    </div>
+                      <h4 style="margin-top: 30px; text-align:center;" data-aos="fade-up">Địa chỉ gợi ý:</h4>
+                      <ul style="text-align:center; list-style: none; padding: 0; margin-bottom: 40px;" data-aos="fade-up">
+                          <li><strong>Bún Bò:</strong> O Cương Chú Điệp, Mệ Kéo, Bà Tuyết...</li>
+                          <li><strong>Cơm/Bún Hến:</strong> Hoa Đông, Quán Nhỏ, Cồn Hến...</li>
+                          <li><strong>Bánh Huế:</strong> Lạc Thiện, Lạc Thạnh, O Lé, Gia Di...</li>
+                          <li><strong>Nem Lụi:</strong> Tài Phú, Bà Tý...</li>
+                          <li><strong>Chè:</strong> Chè Hẻm, Ngọc Hiền, Mợ Tôn Đích...</li>
+                          <li><strong>Khu ẩm thực:</strong> Chợ Đông Ba, Phố đi bộ Nguyễn Đình Chiểu...</li>
+                      </ul>
+                 </div>
+
+                  <div id="trai-nghiem-ca-hue" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Nghe Ca Huế Trên Sông Hương</h3>
+                     <div class="content-columns reverse">
+                         <div class="column-text" data-aos="fade-left"> <p>Một trải nghiệm văn hóa không thể bỏ lỡ khi đến Huế về đêm. Du khách sẽ được ngồi trên những chiếc thuyền rồng lộng lẫy, trôi nhẹ trên dòng sông Hương thơ mộng, lắng nghe các nghệ sĩ biểu diễn những làn điệu Ca Huế mượt mà, sâu lắng, bao gồm cả các điệu hò, lý, bài bản từ dân gian đến cung đình.</p> <p>Không gian huyền ảo của sông nước về đêm, ánh đèn lung linh từ đôi bờ và những giai điệu du dương sẽ mang đến cho bạn một cảm giác thư thái và ấn tượng khó phai. Cuối buổi biểu diễn thường có nghi thức thả đèn hoa đăng trên sông để cầu nguyện may mắn, bình an.</p> <p>Bạn có thể dễ dàng mua vé hoặc đặt tour nghe Ca Huế tại các bến thuyền dọc đường Lê Lợi hoặc thông qua các khách sạn, công ty du lịch.</p> </div>
+                         <div class="column-image" data-aos="fade-right"> <img src="https://images.vietnamtourism.gov.vn/vn/images/FestivalHue02.jpg" alt="Nghe Ca Huế trên sông Hương"> </div>
+                     </div>
+                 </div>
+
+                 <div id="trai-nghiem-khac" class="sub-section">
+                    <h3 class="sub-section-title" data-aos="zoom-in">Những Trải Nghiệm Khác</h3>
+                    <div class="card-grid">
+                         <div class="card" data-aos="fade-up"> <img src="https://cdnmedia.baotintuc.vn/Upload/a7srThwxbojBCucvUWgnxA/files/2022/02/26/chutichnuoc/song-huong-26022022234.jpg" class="card-img"> <div class="card-body"> <h4>Đi thuyền trên sông Hương</h4> <p>Ngắm cảnh Cố đô ban ngày, thăm chùa Thiên Mụ, điện Hòn Chén...</p> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="50"> <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKfTgnFKWOM8St7ihq4rXEa0Cxl66Dg-8wM30Rw7mYOXHjhO4vUohOMC6rOUe-32lL0jlhLKiHEpQruLVC0b738FuiThdR9i3UoDdy6cArR-YS59Oa571iXbRz-wNN7-6OeSYI4TOegFw/w680/xich-lo-8211-mot-net-van-hoa-viet-nam-8.jpg" class="card-img"> <div class="card-body"> <h4>Dạo chơi Kinh thành</h4> <p>Thuê xe đạp, đi bộ hoặc trải nghiệm xích lô khám phá các ngõ ngách.</p> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="100"> <img src="https://dsdhome.vn/uploads/products/resort-lang-co%20(1).png" class="card-img"> <div class="card-body"> <h4>Tắm biển & Nghỉ dưỡng</h4> <p>Thư giãn tại các bãi biển đẹp như Lăng Cô, Thuận An, Cảnh Dương.</p> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="150"> <img src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/k5lowdlgygwoplozch1l/Tour%20Ng%C3%A0y%20Trekking%20V%C6%B0%E1%BB%9Dn%20Qu%E1%BB%91c%20Gia%20B%E1%BA%A1ch%20M%C3%A3%20(T%E1%BB%AB%20Hu%E1%BA%BF).jpg" class="card-img"> <div class="card-body"> <h4>Trekking & Khám phá thiên nhiên</h4> <p>Chinh phục đỉnh Bạch Mã, ngắm thác Đỗ Quyên hùng vĩ.</p> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="200"> <img src="https://tourismdanang.com/wp-content/uploads/2020/06/lang-nghe-Hue-du-lich-Tet-Canh-Ty-2020-1.jpg" class="card-img"> <div class="card-body"> <h4>Tham quan Làng nghề</h4> <p>Tìm hiểu quy trình làm nón, hương, hoa giấy, gốm...</p> <a href="#diem-den-lang-nghe" class="btn btn-outline btn-sm">Xem Làng nghề</a> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="250"> <img src="https://tracungdinhhue.com.vn/wp-content/uploads/2021/12/31800-1024x1024-1.jpg" class="card-img"> <div class="card-body"> <h4>Mua sắm Đặc sản</h4> <p>Mua mè xửng, tôm chua, nem chả tré, trà cung đình, nón lá...</p> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="300"> <img src="https://live.staticflickr.com/1968/30273319527_ffab4f1ab0_b.jpg" class="card-img"> <div class="card-body"> <h4>Chụp ảnh Áo dài</h4> <p>Lưu giữ khoảnh khắc duyên dáng tại các di tích cổ kính.</p> </div> </div>
+                         <div class="card" data-aos="fade-up" data-aos-delay="350"> <img src="https://reviewhue.vn/wp-content/uploads/2022/12/00000.jpg" class="card-img"> <div class="card-body"> <h4>Thư giãn & Chăm sóc sức khỏe</h4> <p>Tận hưởng spa, massage, ngâm tắm thảo dược thư giãn.</p> </div> </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- == Section: LẬP KẾ HOẠCH == -->
+        <section id="lap-ke-hoach" class="section page-section">
+            <div class="container">
+                 <h2 class="section-title" data-aos="fade-up">Lập Kế Hoạch Chuyến Đi</h2>
+
+                 <div id="lap-ke-hoach-thoi-diem" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Thời Điểm Lý Tưởng</h3>
+                     <ul data-aos="fade-up">
+                        <li><strong>Mùa khô (Tháng 3 - Tháng 8):</strong> Nắng đẹp, ít mưa, thuận lợi tham quan, tắm biển. Giữa hè có thể khá nóng.</li>
+                        <li><strong>Mùa xuân (Tháng 1 - Tháng 2):</strong> Tiết trời mát mẻ, dễ chịu, mùa lễ hội đầu năm.</li>
+                        <li><strong>Mùa Festival Huế (Tháng 4 hoặc 6 năm chẵn):</strong> Trải nghiệm không khí lễ hội văn hóa đặc sắc. Cần đặt dịch vụ sớm.</li>
+                        <li><strong>Mùa mưa (Tháng 9 - Tháng 12):</strong> Mưa nhiều, đôi khi có bão lụt. Huế mùa mưa có nét lãng mạn riêng nhưng cần chuẩn bị kỹ.</li>
+                     </ul>
+                 </div>
+
+                 <div id="lap-ke-hoach-di-chuyen" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Di Chuyển</h3>
+                    <div class="transport-options">
+                         <div data-aos="fade-right">
+                            <h4>Đến Huế:</h4>
+                            <ul> <li><strong>Máy bay:</strong> Sân bay Phú Bài (HUI), cách trung tâm 15km. Có taxi, xe buýt vào thành phố.</li> <li><strong>Tàu hỏa:</strong> Ga Huế nằm ngay trung tâm, thuận tiện. Tàu Bắc-Nam đều dừng.</li> <li><strong>Xe khách:</strong> Nhiều hãng xe chất lượng cao từ các tỉnh thành đến Bến xe phía Nam/Bắc.</li> </ul>
+                         </div>
+                        <div data-aos="fade-left">
+                            <h4>Tại Huế:</h4>
+                            <ul> <li><strong>Xe máy thuê:</strong> Linh hoạt, tiết kiệm (120-150k/ngày).</li> <li><strong>Taxi/Grab:</strong> Thuận tiện, dễ gọi.</li> <li><strong>Xe đạp:</strong> Thú vị khi dạo quanh trung tâm, Kinh thành.</li> <li><strong>Xích lô:</strong> Trải nghiệm truyền thống khu trung tâm, Đại Nội.</li> <li><strong>Thuyền rồng:</strong> Dạo sông Hương, nghe ca Huế, thăm chùa.</li> </ul>
+                        </div>
+                    </div>
+                 </div>
+
+                 <div id="lap-ke-hoach-luu-tru" class="sub-section">
+                    <h3 class="sub-section-title" data-aos="zoom-in">Lưu Trú</h3>
+                    <p data-aos="fade-up">Huế có hệ thống cơ sở lưu trú đa dạng, từ sang trọng đến bình dân, phù hợp mọi nhu cầu:</p>
+                    <ul data-aos="fade-up">
+                        <li><strong>Khách sạn cao cấp & Resort:</strong> Dọc sông Hương (Azerai, Melia...), biển Lăng Cô (Laguna...).</li>
+                        <li><strong>Khách sạn trung cấp (3-4 sao):</strong> Nhiều lựa chọn ở trung tâm (Lê Lợi, Hùng Vương...).</li>
+                        <li><strong>Nhà nghỉ & Khách sạn bình dân (1-2 sao):</strong> Quanh khu phố Tây, gần ga, bến xe.</li>
+                        <li><strong>Homestay:</strong> Thiết kế đẹp, độc đáo, trải nghiệm gần gũi văn hóa địa phương.</li>
+                    </ul>
+                    <p data-aos="fade-up"><strong>Lời khuyên:</strong> Nên đặt phòng trước, đặc biệt mùa cao điểm hoặc Festival. Tham khảo đánh giá online.</p>
+                 </div>
+
+                 <div id="lap-ke-hoach-lich-trinh" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Lịch Trình Gợi Ý</h3>
+                     <div class="accordion" data-aos="fade-up">
+                         <div class="accordion-item"> <button class="accordion-header">Huế 3 Ngày 2 Đêm (Phổ biến)</button> <div class="accordion-content"> <p><strong>Ngày 1:</strong> Đến Huế, nhận phòng. Chiều: Đại Nội. Tối: Ăn tối, dạo bộ, nghe Ca Huế.</p> <p><strong>Ngày 2:</strong> Sáng: Lăng Tự Đức, Lăng Khải Định. Chiều: Chùa Thiên Mụ, Làng hương Thủy Xuân. Tối: Ẩm thực đường phố/cung đình.</p> <p><strong>Ngày 3:</strong> Sáng: Chợ Đông Ba, Lăng Minh Mạng/Nhà vườn An Hiên. Trưa: Ăn trưa, trả phòng. Chiều: Ra sân bay/ga.</p> </div> </div>
+                         <div class="accordion-item"> <button class="accordion-header">Huế 2 Ngày 1 Đêm (Tiết kiệm)</button> <div class="accordion-content"> <p><strong>Ngày 1:</strong> Sáng: Đến Huế, Đại Nội. Chiều: Chùa Thiên Mụ, Lăng Tự Đức. Tối: Ăn tối, Ca Huế.</p> <p><strong>Ngày 2:</strong> Sáng: Chợ Đông Ba, Lăng Khải Định. Trưa: Ăn trưa, trả phòng. Chiều: Ra sân bay/ga.</p> </div> </div>
+                         <div class="accordion-item"> <button class="accordion-header">Huế 4-5 Ngày (Khám phá sâu)</button> <div class="accordion-content"> <p>Ngoài lịch trình 3 ngày:</p> <ul> <li>Thêm 1 ngày đi biển Lăng Cô / Thuận An HOẶC trekking Bạch Mã.</li> <li>Thêm 1 ngày khám phá đầm phá Tam Giang, làng cổ Phước Tích.</li> <li>Thăm thêm các lăng tẩm, bảo tàng, nhà vườn khác.</li> </ul> </div> </div>
+                    </div>
+                 </div>
+
+                 <div id="lap-ke-hoach-meo" class="sub-section">
+                     <h3 class="sub-section-title" data-aos="zoom-in">Mẹo Du Lịch Hữu Ích</h3>
+                     <ul style="list-style: disc; padding-left: 20px;" data-aos="fade-up">
+                        <li><strong>Trang phục:</strong> Lịch sự, kín đáo khi thăm di tích, chùa chiền. Mang giày thoải mái. Chuẩn bị đồ che nắng/mưa tùy mùa.</li>
+                        <li><strong>Vé tham quan:</strong> Mua vé combo các điểm Kinh thành, Lăng tẩm để tiết kiệm. Kiểm tra giá vé và giờ mở cửa cập nhật.</li>
+                        <li><strong>Ăn uống:</strong> Mạnh dạn thử quán địa phương, vỉa hè sạch sẽ. Hỏi giá trước nếu không niêm yết.</li>
+                        <li><strong>Mua sắm:</strong> Tham khảo giá và trả giá hợp lý tại chợ Đông Ba.</li>
+                        <li><strong>An ninh:</strong> Cẩn thận tài sản cá nhân nơi đông người.</li>
+                        <li><strong>Giao tiếp:</strong> Dùng từ ngữ lịch sự, nhỏ nhẹ.</li>
+                        <li><strong>Thuê xe máy:</strong> Kiểm tra xe kỹ, đội mũ bảo hiểm, mang giấy tờ.</li>
+                     </ul>
+                 </div>
+
+                  <!-- Map Section (Optional for planning) -->
+                 <div id="lap-ke-hoach-map" class="sub-section">
+                    <h3 class="sub-section-title" data-aos="zoom-in">Bản Đồ Tham Khảo</h3>
+                    <div class="map-container" data-aos="fade-up">
+                        <!-- == QUAN TRỌNG: THAY THẾ MÃ NHÚNG BẢN ĐỒ BÊN DƯỚI == -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d766867.0144604328!2d107.21777648203367!3d16.315780775903917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31419c87726490f7%3A0xab1c0fcaf7cb84b5!2zVGjDoG5oIHBo4buRIEh14bq_LCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1743619419790!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <!-- == HÃY LẤY MÃ NHÚNG GOOGLE MAPS CỦA TRUNG TÂM HUẾ HOẶC ĐỊA ĐIỂM BẠN MUỐN == -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- == Section: TIN TỨC & SỰ KIỆN == -->
+        <section id="tin-tuc" class="section page-section bg-light">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Tin Tức & Sự Kiện</h2>
+                <div class="news-grid">
+                     <article class="news-item" data-aos="fade-up"> <img src="https://dntt.mediacdn.vn/197608888129458176/2024/5/30/2024-5-20-festival2024-3-1716555011326313942103-17170421589061017656828.jpg" class="news-img"> <div class="news-content"> <span class="news-category">Sự kiện</span> <h3 class="news-title"><a href="#">Festival Huế 2024</a></h3> <p>Chuỗi sự kiện văn hóa đặc sắc: nghệ thuật đỉnh cao, lễ hội đường phố, ẩm thực...</p> <span class="news-date">15/07/2024</span> </div> </article>
+                     <article class="news-item" data-aos="fade-up" data-aos-delay="50"> <img src="https://dulichkhampha24.com/wp-content/uploads/2022/09/vi-tri-dia-ly-hue.jpg" class="news-img"> <div class="news-content"> <span class="news-category">Cẩm nang</span> <h3 class="news-title"><a href="#">Kinh nghiệm du lịch Huế mùa hè</a></h3> <p>Thời tiết, trang phục, địa điểm vui chơi, ăn uống không thể bỏ qua...</p> <span class="news-date">10/07/2024</span> </div> </article>
+                     <article class="news-item" data-aos="fade-up" data-aos-delay="100"> <img src="https://bvhttdl.mediacdn.vn/291773308735864832/2023/7/4/trung-tu-1-16884565835811404986153.jpg" class="news-img"> <div class="news-content"> <span class="news-category">Tin tức</span> <h3 class="news-title"><a href="#">Hoàn thành trùng tu Điện Kiến Trung</a></h3> <p>Công trình kiến trúc Art Deco độc đáo trong Đại Nội mở cửa trở lại...</p> <span class="news-date">05/07/2024</span> </div> </article>
+                     <article class="news-item" data-aos="fade-up" data-aos-delay="150"> <img src="https://brotherstravel.com.vn/wp-content/uploads/2023/04/tour-tham-quan-hue-1-ngay.jpg" class="news-img"> <div class="news-content"> <span class="news-category">Ưu đãi</span> <h3 class="news-title"><a href="#">Chùm tour khuyến mãi mùa thu</a></h3> <p>Nhiều gói combo vé máy bay + khách sạn, tour trọn gói giá ưu đãi...</p> <span class="news-date">01/07/2024</span> </div> </article>
+                     <article class="news-item" data-aos="fade-up" data-aos-delay="200"> <img src="https://lh6.googleusercontent.com/proxy/AU4UvABKJBkWk3FKEi9vZZuDBYW208OrI5XVvTSin9alebzAykCHM919isaLvxmNegeSkZN05reQ78wZAhR8aOINy-VZkKrgWj9ToctAtCxul--V-IXBxcaiZujgQcP8rQBp" class="news-img"> <div class="news-content"> <span class="news-category">Xu hướng</span> <h3 class="news-title"><a href="#">Du lịch tâm linh Huế: Tìm về bình yên</a></h3> <p>Khám phá chùa cổ, thiền viện thanh tịnh, tìm hiểu văn hóa Phật giáo...</p> <span class="news-date">25/06/2024</span> </div> </article>
+                     <article class="news-item" data-aos="fade-up" data-aos-delay="250"> <img src="https://luhanhvietnam.com.vn/du-lich/vnt_upload/news/04_2023/diem-check-in-moi-o-hue-chuadieude-toilaphucanh.toilaphucanh.jpg" class="news-img"> <div class="news-content"> <span class="news-category">Khám phá</span> <h3 class="news-title"><a href="#">Điểm check-in mới nổi cực chất</a></h3> <p>Quán cà phê view đẹp, cầu gỗ lim, kiến trúc mới lạ chờ bạn khám phá...</p> <span class="news-date">20/06/2024</span> </div> </article>
+                </div>
+                 <div style="text-align: center; margin-top: 40px;" data-aos="fade-up"> <p>(Đây là các tin tức/sự kiện ví dụ)</p> </div>
+            </div>
+        </section>
+
+        <!-- == Section: THƯ VIỆN == -->
+        <section id="thu-vien" class="section page-section">
+             <div class="container">
+                 <h2 class="section-title" data-aos="fade-up">Thư Viện Ảnh & Video</h2>
+                 <div class="filter-section text-center" style="margin-bottom: 40px;" data-aos="fade-up" data-aos-delay="100">
+                     <!-- 
+                     <button class="btn btn-filter active" data-filter="all">Tất Cả</button>
+                     <button class="btn btn-filter" data-filter="di-san">Di Sản</button>
+                     <button class="btn btn-filter" data-filter="thien-nhien">Thiên Nhiên</button>
+                     <button class="btn btn-filter" data-filter="am-thuc">Ẩm Thực</button>
+                     <button class="btn btn-filter" data-filter="le-hoi">Lễ Hội</button>
+                     <button class="btn btn-filter" data-filter="con-nguoi">Con người</button>
+                     <button class="btn btn-filter" data-filter="video">Video</button>
+                     -->
+                 </div>
+                 <div class="gallery-grid">
+                    <!-- Add data-aos to gallery items -->
+                    <div class="gallery-item" data-category="di-san" data-aos="zoom-in"> <a href="images/dai-noi-lon.jpg" data-lightbox="hue-gallery" data-title="Toàn cảnh Đại Nội Huế"><img src="images/dai-noi.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="di-san" data-aos="zoom-in"> <a href="images/lang-tu-duc-lon.jpg" data-lightbox="hue-gallery" data-title="Lăng Tự Đức thơ mộng"><img src="images/lang-tu-duc.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="di-san" data-aos="zoom-in"> <a href="images/chua-thien-mu-lon.jpg" data-lightbox="hue-gallery" data-title="Chùa Thiên Mụ cổ kính"><img src="images/chua-thien-mu.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="di-san" data-aos="zoom-in"> <a href="images/lang-khai-dinh-lon.jpg" data-lightbox="hue-gallery" data-title="Lăng Khải Định"><img src="images/lang-khai-dinh.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="thien-nhien" data-aos="zoom-in"> <a href="images/bien-lang-co-lon.jpg" data-lightbox="hue-gallery" data-title="Vịnh Lăng Cô"><img src="images/bien-lang-co.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="thien-nhien" data-aos="zoom-in"> <a href="images/tam-giang-hoang-hon-lon.jpg" data-lightbox="hue-gallery" data-title="Phá Tam Giang"><img src="images/tam-giang-cau-hai.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="thien-nhien" data-aos="zoom-in"> <a href="images/bach-ma-do-quyen-lon.jpg" data-lightbox="hue-gallery" data-title="VQG Bạch Mã"><img src="images/bach-ma-vqg.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="thien-nhien" data-aos="zoom-in"> <a href="images/song-huong-lon.jpg" data-lightbox="hue-gallery" data-title="Sông Hương"><img src="images/song-huong-cau-trang-tien.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="am-thuc" data-aos="zoom-in"> <a href="images/am-thuc-banh-hue-lon.jpg" data-lightbox="hue-gallery" data-title="Bánh Huế"><img src="images/am-thuc-banh-hue.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="am-thuc" data-aos="zoom-in"> <a href="images/bun-bo-hue-lon.jpg" data-lightbox="hue-gallery" data-title="Bún Bò Huế"><img src="images/bun-bo-hue.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="am-thuc" data-aos="zoom-in"> <a href="images/com-hen-lon.jpg" data-lightbox="hue-gallery" data-title="Cơm Hến"><img src="images/com-hen.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="le-hoi" data-aos="zoom-in"> <a href="images/festival-hue-lon.jpg" data-lightbox="hue-gallery" data-title="Festival Huế"><img src="images/festival-hue.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="le-hoi" data-aos="zoom-in"> <a href="images/le-hoi-ao-dai-lon.jpg" data-lightbox="hue-gallery" data-title="Lễ hội Áo dài"><img src="images/le-hoi-ao-dai.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="con-nguoi" data-aos="zoom-in"> <a href="images/ao-dai-hue-lon.jpg" data-lightbox="hue-gallery" data-title="Áo dài Huế"><img src="images/ao-dai-hue.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="con-nguoi" data-aos="zoom-in"> <a href="images/nguoi-dan-hue-lon.jpg" data-lightbox="hue-gallery" data-title="Người dân Huế"><img src="images/nguoi-dan-hue.jpg"><div class="gallery-overlay"><i class="fas fa-search-plus"></i></div></a></div>
+                    <div class="gallery-item" data-category="video" data-aos="zoom-in"> <a href="https://www.youtube.com/watch?v=VIDEO_ID_1" data-lightbox="hue-gallery" data-title="Video Giới thiệu"><img src="images/video-thumbnail-1.jpg"><div class="gallery-overlay"><i class="fas fa-play"></i></div></a></div>
+                    <div class="gallery-item" data-category="video" data-aos="zoom-in"> <a href="https://vimeo.com/VIDEO_ID_2" data-lightbox="hue-gallery" data-title="Video Ẩm thực"><img src="images/video-thumbnail-2.jpg"><div class="gallery-overlay"><i class="fas fa-play"></i></div></a></div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Phần liên hệ đã được xóa -->
+
+    </main>
+    <!-- ==== END MAIN CONTENT AREA ==== -->
+
+    <!-- Footer -->
+    <footer class="site-footer">
+         <div class="container footer-grid">
+            <div class="footer-col" data-aos="fade-up">
+                 <a href="#hero" class="footer-logo"><img src="https://upload.wikimedia.org/wikipedia/vi/2/2a/Logo_th%C3%A0nh_ph%E1%BB%91_Hu%E1%BA%BF.svg" alt="Logo Huế Project"></a> <!-- Thay logo trắng -->
+                <p>Dự án báo cáo giới thiệu về vẻ đẹp và văn hóa Thừa Thiên Huế.</p>
+                 <!-- Có thể thêm link social media của bạn nếu muốn -->
+                 <!-- <div class="social-links"> ... </div> -->
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                <h4>Khám Phá</h4>
+                <ul> <li><a href="#diem-den">Điểm Đến</a></li> <li><a href="#trai-nghiem">Trải Nghiệm</a></li> <li><a href="#di-san-van-hoa">Di Sản & Văn Hóa</a></li> <li><a href="#trai-nghiem-am-thuc">Ẩm Thực</a></li> <li><a href="#tin-tuc">Sự Kiện</a></li> </ul>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                <h4>Hỗ Trợ</h4> <!-- Đổi tên cho phù hợp -->
+                <ul> <li><a href="#lap-ke-hoach">Lập Kế Hoạch</a></li> <li><a href="#lap-ke-hoach-di-chuyen">Di Chuyển</a></li> <li><a href="#lap-ke-hoach-luu-tru">Lưu Trú</a></li> <li><a href="#lap-ke-hoach-meo">Mẹo Du Lịch</a></li> <li><a href="#thu-vien">Thư Viện</a></li> </ul>
+            </div>
+             <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                 <h4>Thông tin Dự án</h4>
+                 <p>Website được thực hiện cho mục đích báo cáo học tập môn [ Tin học ].</p>
+                 <p>Nguồn tham khảo chính: [Cổng TTĐT Tỉnh TTH, Wikipedia...]</p>
+             </div>
+         </div>
+         <div class="footer-bottom"> <div class="container"> <p>© 2025 - Lê Hoàng Dũng - Lớp 12A2</p> </div> </div>
+    </footer>
+
+    <!-- Nút Back to Top -->
+    <a href="#" id="back-to-top" class="back-to-top" aria-label="Lên đầu trang"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Hộp Thông Tin Người Làm -->
+    <div class="creator-info-container">
+        <button id="creator-info-btn" class="creator-info-btn" aria-label="Thông tin người làm">
+            <i class="fas fa-user-graduate"></i> <!-- Icon phù hợp hơn -->
+        </button>
+        <div id="creator-info-box" class="creator-info-box">
+            <div class="creator-info-content">
+                <div class="creator-avatar">
+                    <!-- QUAN TRỌNG: Thay src bằng đường dẫn ảnh avatar của bạn -->
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMckiibVIjRJfXAkGf4dSv7JYQxBQug-2KCQ&s" alt="Avatar Lê Hoàng Dũng">
+                </div>
+                <div class="creator-details">
+                    <p><strong style="color: rgb(168, 135, 189)">Họ tên:</strong> Lê Hoàng Dũng</p>
+                    <p><strong style="color: rgb(168, 135, 189)">Lớp:</strong> 12A2</p>
+                </div>
+            </div>
+             <p class="creator-project" style="color: white;"><strong style="color: rgb(168, 135, 189)">Dự án:</strong> Website Giới thiệu về Thừa Thiên Huế</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <!-- jQuery (Cần cho Lightbox) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Main JS -->
+    <script src="script.js"></script>
+</body>
+</html>
